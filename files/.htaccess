@@ -1,0 +1,18 @@
+# Désactiver l'indexation du répertoire pour éviter que la liste des fichiers ne soit affichée
+Options -Indexes
+
+# Empêcher l'exécution de scripts PHP
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps
+<FilesMatch "\.(php|php[0-9]+)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Empêcher l'exécution d'autres scripts potentiellement dangereux
+<FilesMatch "\.(pl|py|jsp|asp|aspx|sh|bat)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Optionnel : Si votre serveur le supporte, désactiver le moteur PHP dans ce répertoire
+php_flag engine off
