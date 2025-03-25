@@ -1,5 +1,5 @@
 <?php
 $DB_HOST = "localhost";
 $DB_NAME = "alexcloud";
-$DB_USER = "app";
-$DB_PASS = "app";
+$DB_USER = "root";
+$DB_PASS = "root";
