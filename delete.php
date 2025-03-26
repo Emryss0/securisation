@@ -2,39 +2,28 @@
 require_once "auth.php";   // Vérifie que l'utilisateur est connecté
 require_once "log.php";    // Pour enregistrer l'action dans les logs
 
-// Vérifier que le paramètre "file" est présent
+// On force la réponse au format JSON
+header('Content-Type: application/json');
+
 if (!isset($_GET["file"])) {
-    die("Aucun fichier spécifié.");
+    echo json_encode(["error" => "Aucun fichier spécifié."]);
+    exit;
 }
 
-// Récupère le nom du fichier en sécurisant le chemin pour éviter la traversée de répertoire
 $file = basename($_GET["file"]);
 $user_dir = "files/" . $_SESSION["username"];
 $filepath = $user_dir . "/" . $file;
 
-// Vérifie que le fichier existe dans le dossier de l'utilisateur
 if (!file_exists($filepath)) {
-    die("Fichier introuvable.");
+    echo json_encode(["error" => "Fichier introuvable."]);
+    exit;
 }
 
-// Tente de supprimer le fichier
 if (unlink($filepath)) {
-    // Journaliser la suppression
     log_action("delete_file: $file", $_SESSION["user_id"]);
-    $message = "Fichier supprimé avec succès.";
+    echo json_encode(["success" => "Fichier supprimé avec succès."]);
 } else {
-    $message = "Erreur lors de la suppression du fichier.";
+    echo json_encode(["error" => "Erreur lors de la suppression du fichier."]);
 }
+exit;
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Suppression de fichier</title>
-</head>
-<body>
-    <h2>Suppression de fichier</h2>
-    <p><?php echo htmlspecialchars($message); ?></p>
-    <p><a href="index.php">Retour à l'accueil</a></p>
-</body>
-</html>

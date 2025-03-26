@@ -1,6 +1,6 @@
 <?php
-require_once "config.php";   // infos BDD
-require_once "db.php";       // connexion PDO
+require_once "config.php";   // Infos BDD
+require_once "db.php";       // Connexion PDO
 
 session_start();
 $errors = [];
@@ -10,20 +10,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"];
     $password2 = $_POST["password2"];
     $description = trim($_POST["description"]);
+    $captcha = trim($_POST["captcha"]);
     $csrf_token = $_POST["csrf_token"];
 
-    // Vérification CSRF Cross-Site Request Forgery,
+    // Vérification CSRF
     if (!isset($_SESSION["csrf_token"]) || $csrf_token !== $_SESSION["csrf_token"]) {
         $errors[] = "Requête invalide.";
     }
 
-    // Vérification des champs
+    // Vérification des champs obligatoires
     if (empty($username) || empty($password) || empty($description)) {
         $errors[] = "Tous les champs sont requis.";
     }
 
+    // Vérifier la concordance des mots de passe
     if ($password !== $password2) {
         $errors[] = "Les mots de passe ne correspondent pas.";
+    }
+
+    // Vérification de la complexité du mot de passe :
+    // Au moins 16 caractères, une minuscule, une majuscule et un caractère spécial
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{16,}$/', $password)) {
+        $errors[] = "Le mot de passe doit contenir au moins 16 caractères, incluant des majuscules, des minuscules et des caractères spéciaux.";
+    }
+
+    // Vérification du captcha (comparaison insensible à la casse)
+    if (empty($captcha) || strtolower($captcha) !== strtolower($_SESSION["captcha"])) {
+        $errors[] = "Le captcha est incorrect.";
     }
 
     // Vérifier si le username existe déjà
@@ -37,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Hasher le mot de passe avec Argon2id
         $hash = password_hash($password, PASSWORD_ARGON2ID);
 
+        // Insérer l'utilisateur dans la base de données
         $stmt = $pdo->prepare("INSERT INTO users (username, password_hash, description) VALUES (?, ?, ?)");
         $stmt->execute([$username, $hash, $description]);
 
@@ -45,27 +59,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-// Génération du token CSRF Cross-Site Request Forgery,
+// Génération d'un token CSRF pour le formulaire
 $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
 ?>
-
 <!DOCTYPE html>
-<html>
-<head><title>Inscription</title></head>
-<body>
-    <form method="POST" action="">
-        <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" name="password" placeholder="Mot de passe" required>
-        <input type="password" name="password2" placeholder="Confirmez le mot de passe" required>
-        <input type="text" name="description" placeholder="Description">
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-        <input type="submit" value="Créer mon compte">
-    </form>
+<html lang="fr">
 
-    <?php if (!empty($errors)) {
-        foreach ($errors as $err) {
-            echo "<div style='color:red;'>$err</div>";
-        }
-    } ?>
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - AlexCloud</title>
+    <link rel="stylesheet" href="./style/register.css">
+</head>
+
+<body>
+    <div class="register-container">
+        <h2>Inscription à AlexCloud</h2>
+        <form method="POST" action="">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <input type="password" name="password2" placeholder="Confirmez le mot de passe" required>
+            <input type="text" name="description" placeholder="Description" required>
+
+            <!-- Section captcha -->
+            <div class="captcha-container">
+                <img src="captcha.php" alt="Captcha" class="captcha-image">
+                <input type="text" name="captcha" placeholder="Tapez le code ci-dessus" required>
+            </div>
+
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="submit" value="Créer mon compte">
+        </form>
+        <?php if (!empty($errors)): ?>
+            <div class="error-message">
+                <?php foreach ($errors as $err): ?>
+                    <p><?php echo htmlspecialchars($err); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+        <p class="login-text">Vous avez déjà un compte ? <a href="login.php">Se connecter</a></p>
+    </div>
 </body>
+
 </html>

@@ -1,0 +1,6 @@
+User-Agent: TropSmartUserAgentAdminHeHeHe
+Allow: /admin.php
+
+User-Agent: *
+Disallow: /admin.php
+Disallow: FLAG{C3sTQu01UnU53r4G3nT?}

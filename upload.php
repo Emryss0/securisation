@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $max_size = 2 * 1024 * 1024; // 2 Mo
 
         $file_name = $_FILES["myfile"]["name"];
-        $file_tmp  = $_FILES["myfile"]["tmp_name"];
+        $file_tmp = $_FILES["myfile"]["tmp_name"];
         $file_size = $_FILES["myfile"]["size"];
 
         // Récupère l'extension en minuscule
@@ -52,26 +52,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Upload - AlexCloud</title>
+    <link rel="stylesheet" href="./style/upload.css">
+    <link rel="stylesheet" href="./style/header.css">
 </head>
+
 <body>
-    <h2>Uploader un fichier</h2>
+    <?php require_once "header.php"; // Inclusion du header ?>
+    <div class="container">
+        <h2>Uploader un fichier</h2>
 
-    <?php if (isset($error)) : ?>
-        <p style="color:red;"><?php echo $error; ?></p>
-    <?php endif; ?>
+        <?php if (isset($error)): ?>
+            <p class="error"><?php echo htmlspecialchars($error); ?></p>
+        <?php endif; ?>
 
-    <?php if (isset($success)) : ?>
-        <p style="color:green;"><?php echo $success; ?></p>
-    <?php endif; ?>
+        <?php if (isset($success)): ?>
+            <p class="success"><?php echo htmlspecialchars($success); ?></p>
+        <?php endif; ?>
 
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="myfile" required>
-        <button type="submit">Uploader</button>
-    </form>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="myfile" required>
+            <button type="submit">Uploader</button>
+        </form>
 
-    <p><a href="index.php">Retour à l'accueil</a></p>
+        <p><a href="index.php">Retour à l'accueil</a></p>
+    </div>
 </body>
+
 </html>

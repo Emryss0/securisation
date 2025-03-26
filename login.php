@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Vérification du mot de passe hashé
             if (password_verify($password, $user["password_hash"])) {
                 // Session sécurisée
-                session_regenerate_id(true); 
+                session_regenerate_id(true);
 
                 $_SESSION["user_id"] = $user["id"];
                 $_SESSION["username"] = $user["username"];
@@ -42,22 +42,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title>Connexion - AlexCloud</title>
+    <link rel="stylesheet" href="./style/login.css">
 </head>
-<body>
-    <form method="POST" action="">
-        <h2>Connexion à AlexCloud</h2>
-        <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" name="password" placeholder="Mot de passe" required>
-        <input type="submit" value="Se connecter">
 
-        <?php if (!empty($errors)): ?>
-            <div style="color:red;">
-                <?php foreach ($errors as $e) echo "<p>$e</p>"; ?>
-            </div>
-        <?php endif; ?>
-    </form>
+<body>
+    <div class="login-container">
+        <img class="logo" src="/img/alexcloud.png" alt="Logo AlexCloud">
+        <h2>Connexion à AlexCloud</h2>
+        <form method="POST" action="">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <input type="submit" value="Se connecter">
+            <?php if (!empty($errors)): ?>
+                <div class="error-message">
+                    <?php foreach ($errors as $e): ?>
+                        <p><?php echo htmlspecialchars($e); ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </form>
+        <p class="register-text">Vous n'avez pas de compte ? <a href="register.php">Créez-en un</a></p>
+    </div>
 </body>
+
 </html>
