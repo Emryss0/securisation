@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"];
     $password2 = $_POST["password2"];
     $description = trim($_POST["description"]);
-    $captcha = trim($_POST["captcha"]);
     $csrf_token = $_POST["csrf_token"];
 
     // Vérification CSRF
@@ -34,9 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Le mot de passe doit contenir au moins 16 caractères, incluant des majuscules, des minuscules et des caractères spéciaux.";
     }
 
-    // Vérification du captcha (comparaison insensible à la casse)
-    if (empty($captcha) || strtolower($captcha) !== strtolower($_SESSION["captcha"])) {
-        $errors[] = "Le captcha est incorrect.";
+    // Vérification du captcha Google reCAPTCHA
+    if (empty($_POST['g-recaptcha-response'])) {
+        $errors[] = "Veuillez confirmer que vous n'êtes pas un robot.";
+    } else {
+        $secret = "6Lf4iwErAAAAAFpYKEISlWEtnlRPz5Og5oYsB__b";
+        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$_POST['g-recaptcha-response']);
+        $data = json_decode($response);
+        if (!$data->success) {
+            $errors[] = "Captcha non validé. Essayez encore.";
+        }
     }
 
     // Vérifier si le username existe déjà
@@ -64,13 +70,13 @@ $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <title>Inscription - AlexCloud</title>
     <link rel="stylesheet" href="./style/register.css">
+    <!-- Chargement de la librairie Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-
 <body>
     <div class="register-container">
         <h2>Inscription à AlexCloud</h2>
@@ -80,11 +86,8 @@ $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
             <input type="password" name="password2" placeholder="Confirmez le mot de passe" required>
             <input type="text" name="description" placeholder="Description" required>
 
-            <!-- Section captcha -->
-            <div class="captcha-container">
-                <img src="captcha.php" alt="Captcha" class="captcha-image">
-                <input type="text" name="captcha" placeholder="Tapez le code ci-dessus" required>
-            </div>
+            <!-- Section Google reCAPTCHA -->
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
 
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input type="submit" value="Créer mon compte">
@@ -99,5 +102,4 @@ $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
         <p class="login-text">Vous avez déjà un compte ? <a href="login.php">Se connecter</a></p>
     </div>
 </body>
-
 </html>
