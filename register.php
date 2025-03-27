@@ -87,7 +87,7 @@ $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
             <input type="text" name="description" placeholder="Description" required>
 
             <!-- Section Google reCAPTCHA -->
-            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+            <div class="g-recaptcha" data-sitekey="6Lf4iwErAAAAAMa1zREhCq6SiU9xqFduKRAAYc8L"></div>
 
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input type="submit" value="Créer mon compte">
