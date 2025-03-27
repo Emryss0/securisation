@@ -7,7 +7,7 @@ require_once "auth.php"; // S'assurer que l'utilisateur est connecté
         <a class="profile-link" href="./p/template.php">Profil</a>
     </div>
     <div class="header-center">
-        <img class="header-logo" src="/img/alexcloud.png" alt="Logo AlexCloud">
+        <img class="header-logo" src="http://localhost/securisation/img/alexcloud.png" alt="Logo AlexCloud">
     </div>
     <div class="header-right">
         <a class="logout-link" href="logout.php">Se déconnecter</a>
