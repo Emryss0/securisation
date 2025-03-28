@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $new_name = uniqid() . "." . $file_ext;
 
             // Dossier de l'utilisateur
-            $user_dir = "files/" . $_SESSION["username"];
+            $user_dir = "./files/" . $_SESSION["username"];
             if (!is_dir($user_dir)) {
                 mkdir($user_dir, 0755, true);
             }

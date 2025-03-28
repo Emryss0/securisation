@@ -1,38 +1,94 @@
+/* Définition des variables pour les couleurs et styles communs */
+:root {
+  --bg-primary: #e0f7fa; /* Bleu clair */
+  --container-bg: #ffffff;
+  --primary-color: #0277bd;
+  --text-color: #555;
+  --border-color: #b0bec5;
+  --header-bg: #f0f0f0;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style global */
 body {
-  background: #e0f7fa;
-  /* Bleu clair */
+  background: var(--bg-primary);
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--container-bg);
+  padding: 10px 20px;
+  box-shadow: var(--box-shadow);
+}
+
+.header-left,
+.header-center,
+.header-right {
+  flex: 1;
+  text-align: center;
+}
+
+.header-left {
+  text-align: left;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.header-logo {
+  max-height: 50px; /* Ajustez selon vos besoins */
+}
+
+.profile-link,
+.logout-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.profile-link:hover,
+.logout-link:hover {
+  text-decoration: underline;
+}
+
+/* Conteneur central de la page */
 .container {
   max-width: 800px;
   margin: 40px auto;
-  background: #ffffff;
+  background: var(--container-bg);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
+/* Titres */
 h1,
 h2 {
-  color: #0277bd;
+  color: var(--primary-color);
   text-align: center;
 }
 
+/* Paragraphes */
 p {
   text-align: center;
-  color: #555;
+  color: var(--text-color);
 }
 
+/* Liens */
 .links {
   text-align: center;
   margin-bottom: 20px;
 }
 
 .links a {
-  color: #0277bd;
+  color: var(--primary-color);
   text-decoration: none;
   margin: 0 10px;
 }
@@ -41,6 +97,7 @@ p {
   text-decoration: underline;
 }
 
+/* Tableaux */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -50,7 +107,7 @@ table {
 table,
 th,
 td {
-  border: 1px solid #b0bec5;
+  border: 1px solid var(--border-color);
 }
 
 th,
@@ -59,10 +116,15 @@ td {
 }
 
 th {
-  background: #f0f0f0;
+  background: var(--header-bg);
 }
 
-/* Centre le contenu des cellules d'action */
+/* Centrage du contenu dans les cellules d'action */
 .action-cell {
+  text-align: center;
+}
+
+/* Optionnel : centrer les icônes dans les colonnes spécifiques */
+.icon-cell {
   text-align: center;
 }

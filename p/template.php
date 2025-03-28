@@ -31,26 +31,17 @@ $csrf_token = $_SESSION['csrf_token'];
 <head>
     <meta charset="UTF-8">
     <title>Profile page</title>
-    <link rel="stylesheet" href="./style/template.css">
+    <link rel="stylesheet" href="../style/template.css">
 </head>
 
 <body>
     <?php require_once "../header.php"; // Inclusion du header (profil, logo, déconnexion) ?>
     <div class="container">
         <div id="profile">
-            <a href="/"><img src="/alexcloud.png" alt="Logo" /></a>
+            <a href="/"><img src="../img/alexcloud.png" alt="Logo" /></a>
             <h1>Bienvenue sur la page de profil de
                 <?php echo htmlspecialchars($user_data["username"], ENT_QUOTES, 'UTF-8'); ?>
             </h1>
-            <h3>
-                <?php
-                if ($user_data["is_admin"] == 1) {
-                    echo "L'utilisateur est administrateur";
-                } else {
-                    echo "L'utilisateur n'est pas administrateur";
-                }
-                ?>
-            </h3>
             <br><br>
             <br><br>
             <h2>Description de l'utilisateur :</h2>

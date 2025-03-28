@@ -1,5 +1,9 @@
 <?php
 require_once "auth.php";   // Vérifie que l'utilisateur est connecté
+$page = "index";
+if ($_SESSION["is_admin"] == 1) {
+    $page = "admin";
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -106,5 +110,6 @@ require_once "auth.php";   // Vérifie que l'utilisateur est connecté
         });
     });
     </script>
+    <a href="./newsletter/<?php echo $page ?>.php" class="btn">news</a>
 </body>
 </html>

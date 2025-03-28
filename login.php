@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <div class="login-container">
-        <img class="logo" src="http://localhost/securisation/img/alexcloud.png" alt="Logo AlexCloud">
+        <img class="logo" src="./img/alexcloud.png" alt="Logo AlexCloud">
         <h2>Connexion à AlexCloud</h2>
         <form method="POST" action="">
             <input type="text" name="username" placeholder="Nom d'utilisateur" required>

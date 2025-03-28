@@ -1,5 +1,5 @@
 <?php
-$DB_HOST = "127.0.0.1";
+$DB_HOST = "192.168.118.143";
 $DB_NAME = "alexcloud";
-$DB_USER = "root";
-$DB_PASS = "";
+$DB_USER = "toto";
+$DB_PASS = "Azerty123$";

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once "../auth.php";   // Vérifie la session
 $msg = "";
 if (isset($_SESSION['msg'])) {
 	$msg = $_SESSION['msg'];
@@ -34,7 +34,7 @@ if (isset($_SESSION['msg'])) {
 			<input name="t" type="email" placeholder="Adresse Mail" required />
 			<input type="submit" value="Recevoir la Newsletter !" />
 		</form>
+    <a href="/" class="btn">Home</a>
 	</div>
 </body>
-
 </html>

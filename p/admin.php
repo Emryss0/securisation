@@ -4,7 +4,7 @@ require_once "../auth.php"; // Vérifie que l'utilisateur est connecté
 
 
 if ($_SESSION["is_admin"] == 0) {
-    header('Location: ./securisation/index.php');
+    header('Location: ../index.php');
 }
 // Vérification que l'utilisateur est correctement authentifié
 if (!isset($_SESSION['username'])) {

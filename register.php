@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST['g-recaptcha-response'])) {
         $errors[] = "Veuillez confirmer que vous n'êtes pas un robot.";
     } else {
-        $secret = "6Lf4iwErAAAAAFpYKEISlWEtnlRPz5Og5oYsB__b";
+        $secret = "6LfPggIrAAAAAGgUVeCcsMoCZQ1bvp_Srzv3eJD7";
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$_POST['g-recaptcha-response']);
         $data = json_decode($response);
         if (!$data->success) {
@@ -87,7 +87,7 @@ $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
             <input type="text" name="description" placeholder="Description" required>
 
             <!-- Section Google reCAPTCHA -->
-            <div class="g-recaptcha" data-sitekey="6Lf4iwErAAAAAMa1zREhCq6SiU9xqFduKRAAYc8L"></div>
+            <div class="g-recaptcha" data-sitekey="6LfPggIrAAAAACs4xh0j9BrqlD0K-CjSVQCxlkJQ"></div>
 
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input type="submit" value="Créer mon compte">
